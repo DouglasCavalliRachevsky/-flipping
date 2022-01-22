@@ -38,9 +38,14 @@ public class LevelManager : MonoBehaviour
 
         foreach (var tile in startingGameBoard)
         {
+            Quaternion randomRotation = Quaternion.Euler(0f,90f * (int)Random.Range(0, 4), 0f);
             GameObject pieceGameObject = Instantiate(levelRules.PieceList[tile.z],
                 new Vector3(tile.x * levelRules.TileSize, 0, tile.y * levelRules.TileSize),
-                Quaternion.identity);
+                randomRotation);
+            pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + levelRules.PieceList[tile.z].name;
+            pieceGameObject.AddComponent<BoxCollider>();
+            Piece piece = pieceGameObject.AddComponent<Piece>();
+            piece.StartingTile = tile;
             piecesGameObjects.Add(pieceGameObject);
         }
     }
