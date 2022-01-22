@@ -5,7 +5,6 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private LevelRules levelRules;
-    [SerializeField] [Range(4, 16)] private int startingNumberOfPieces = 4;
     private List<GameObject> piecesGameObjects = new List<GameObject>();
     private List<Vector3Int> startingGameBoard = new List<Vector3Int>();
 
@@ -35,7 +34,7 @@ public class LevelManager : MonoBehaviour
         }
 
         piecesGameObjects = new List<GameObject>();
-        startingGameBoard = LevelGenerator.GenerateANewLevel(levelRules, startingNumberOfPieces);
+        startingGameBoard = LevelGenerator.GenerateANewLevel(levelRules, levelRules.StartingNumberOfPieces);
 
         foreach (var tile in startingGameBoard)
         {
