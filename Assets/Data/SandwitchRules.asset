@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e1fa13726cbe346bfa16eae97cee3d, type: 3}
   m_Name: SandwitchRules
   m_EditorClassIdentifier: 
-  TileSize: 1.2
+  GameBoardSize: 4
+  TileSize: 1.25
   PieceList:
   - {fileID: 5764962964242528906, guid: ca212ba2ffea07746aab6bf4ff657587, type: 3}
   - {fileID: 2349296836677394995, guid: 6528793be95d08344afab74352046e4b, type: 3}

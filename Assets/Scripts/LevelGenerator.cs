@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class LevelGenerator : MonoBehaviour
+public static class LevelGenerator
 {
-    public LevelRules LevelRules;
+    private static LevelRules levelRules;
 
-    [Range(4, 16)] public int startingNumberOfPieces = 4;
+    private static int startingNumberOfPieces;
 
-    List<Vector3Int> currentGameBoard = new List<Vector3Int>();
-    private const int MAX_GAMEBOARD_INDEX = LevelRules.GAME_BOARD_SIZE - 1;
+    private static List<Vector3Int> currentGameBoard = new List<Vector3Int>();
 
     enum NeighborType
     {
@@ -23,24 +22,16 @@ public class LevelGenerator : MonoBehaviour
         max
     }
 
-#if UNITY_EDITOR
-    private void Awake()
+    public static List<Vector3Int> GenerateANewLevel(LevelRules _levelRules, int _startingNumberOfPieces)
     {
+        startingNumberOfPieces = _startingNumberOfPieces;
+        levelRules = _levelRules;
         ResetLevel();
         GenerateLevel();
+        return currentGameBoard;
     }
-    
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            ResetLevel();
-            GenerateLevel();
-        }
-    }
-#endif
 
-    public void GenerateLevel()
+    private static void GenerateLevel()
     {
         int lastPrefabIndex = 0;
         int prefabIndex = 0;
@@ -50,7 +41,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 while (prefabIndex == lastPrefabIndex)
                 {
-                    prefabIndex = Random.Range(1, LevelRules.PieceList.Count - 1);
+                    prefabIndex = Random.Range(1, levelRules.PieceList.Count);
                 }
             }
 
@@ -63,21 +54,21 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private Vector3Int GetAvailableTile(int prefabIndex)
+    private static Vector3Int GetAvailableTile(int prefabIndex)
     {
         if (currentGameBoard.Count == 0)
         {
-            return (new Vector3Int(Random.Range(0, MAX_GAMEBOARD_INDEX),
-                Random.Range(0, MAX_GAMEBOARD_INDEX), prefabIndex));
+            return (new Vector3Int(Random.Range(0, levelRules.GameBoardSize),
+                Random.Range(0, levelRules.GameBoardSize), prefabIndex));
         }
 
         while (true)
         {
-            int randomOccupiedTileIndex = Random.Range(0, currentGameBoard.Count - 1);
+            int randomOccupiedTileIndex = Random.Range(0, currentGameBoard.Count);
             Vector3Int occupiedTile = currentGameBoard[randomOccupiedTileIndex];
 
             NeighborType neighborType =
-                (NeighborType) Random.Range((int) NeighborType.min + 1, (int) NeighborType.max - 1);
+                (NeighborType) Random.Range((int) NeighborType.min + 1, (int) NeighborType.max);
 
             switch (neighborType)
             {
@@ -113,7 +104,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private bool IsTileAvailable(int x, int y)
+    private static bool IsTileAvailable(int x, int y)
     {
         if (IsOnGameBoard(x, y) == false)
         {
@@ -131,15 +122,15 @@ public class LevelGenerator : MonoBehaviour
         return true;
     }
 
-    private bool IsOnGameBoard(int x, int y)
+    private static bool IsOnGameBoard(int x, int y)
     {
-        return x <= MAX_GAMEBOARD_INDEX
+        return x < levelRules.GameBoardSize
                && x >= 0
-               && y <= MAX_GAMEBOARD_INDEX
+               && y < levelRules.GameBoardSize
                && y >= 0;
     }
 
-    private void ResetLevel()
+    private static void ResetLevel()
     {
         currentGameBoard = new List<Vector3Int>();
     }
