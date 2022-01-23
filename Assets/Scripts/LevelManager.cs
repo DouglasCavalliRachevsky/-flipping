@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
             Rules = rules;
         }
 
+        Camera.main.transform.position =
+            new Vector3(Rules.GameBoardSize / 7f, Rules.GameBoardSize + 1, Rules.GameBoardSize / 2f);
+
         if (piecesGameObjects.Count > 0)
         {
             for (int i = piecesGameObjects.Count - 1; i >= 0; i--)
