@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public void StartNewGameWithSameRules()
     {
         StartNewGame();
+        ui.ChangeState(State.Gameplay);
     }
     
     public void StartNewGame(LevelRules rules = null)
