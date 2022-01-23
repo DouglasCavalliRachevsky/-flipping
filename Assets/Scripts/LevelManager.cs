@@ -8,23 +8,14 @@ public class LevelManager : MonoBehaviour
     private List<GameObject> piecesGameObjects = new List<GameObject>();
     private List<Vector3Int> startingGameBoard = new List<Vector3Int>();
 
-    private void Awake()
+    
+    public void InitializeNewLevel(bool restartLevel, LevelRules rules = null)
     {
-        InitializeNewLevel();
-    }
-
-#if UNITY_EDITOR
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (rules != null)
         {
-            InitializeNewLevel();
+            Rules = rules;
         }
-    }
-#endif
 
-    public void InitializeNewLevel()
-    {
         if (piecesGameObjects.Count > 0)
         {
             for (int i = piecesGameObjects.Count - 1; i >= 0; i--)
@@ -34,8 +25,11 @@ public class LevelManager : MonoBehaviour
         }
 
         piecesGameObjects = new List<GameObject>();
-        startingGameBoard = LevelGenerator.GenerateANewLevel(Rules, Rules.StartingNumberOfPieces);
-
+        if (restartLevel == false)
+        {
+            startingGameBoard = LevelGenerator.GenerateANewLevel(Rules, Rules.StartingNumberOfPieces);
+        }
+        
         foreach (var tile in startingGameBoard)
         {
             GenerateNewPiece(tile);

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private UIController ui;
     private LevelManager level;
     private Piece currentSelectedPiece;
     private int totalValidMovements = 0;
@@ -13,27 +14,43 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         level = GetComponent<LevelManager>();
+        StartNewGame();
     }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0) && ui.CurrentState == State.Gameplay)
         {
             DeselectPiece();
-            
+
             if (level.CheckUpVictory(totalValidMovements))
             {
-                Debug.Log("WIN");
+                ui.ChangeState(State.Victory);
+                //Debug.Log("WIN");
             }
         }
     }
 
     [UsedImplicitly]
-    public void StartNewGame()
+    public void StartNewGameWithSameRules()
+    {
+        StartNewGame();
+    }
+    
+    public void StartNewGame(LevelRules rules = null)
     {
         DeselectPiece();
-        level.InitializeNewLevel();
+        level.InitializeNewLevel(false, rules);
         totalValidMovements = 0;
+    }
+    
+    [UsedImplicitly]
+    public void RestartGame()
+    {
+        DeselectPiece();
+        level.InitializeNewLevel(true);
+        totalValidMovements = 0;
+        ui.ChangeState(State.Gameplay);
     }
 
     private void DeselectPiece()
@@ -77,13 +94,14 @@ public class GameManager : MonoBehaviour
         if (joinedPieces)
         {
             totalValidMovements++;
-            
+
             if (level.Rules.MergePiecesEnabled)
             {
-                level.GenerateNewPiece(new Vector3Int(selected.CurrentTile.x, selected.CurrentTile.y , selected.CurrentTile.z + 1));
+                level.GenerateNewPiece(new Vector3Int(selected.CurrentTile.x, selected.CurrentTile.y,
+                    selected.CurrentTile.z + 1));
             }
         }
-        
+
         DeselectPiece();
     }
 }

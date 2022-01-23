@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1be2148565b5d9a438b4c1f97cd4b665, type: 3}
-  m_Name: 2048_4x4_8pieces_max256
+  m_Name: 2048_7x7_24pieces_max2048
   m_EditorClassIdentifier: 
   GameType: 2
-  GameBoardSize: 4
+  GameBoardSize: 7
   TileSize: 1.25
   TileHeight: 0
   PieceRandomRotationEnabled: 0
   MergePiecesEnabled: 1
-  StartingNumberOfPieces: 8
-  MostImportantPieceIndex: 7
+  StartingNumberOfPieces: 24
+  MostImportantPieceIndex: 10
   PieceList:
   - {fileID: 9126360663820842406, guid: 4046b1d76676736469a5a86ce5394280, type: 3}
   - {fileID: 5701926187383288695, guid: a932e16dbbdcb514aacc41ac27afa885, type: 3}

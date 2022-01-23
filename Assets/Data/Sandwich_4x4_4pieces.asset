@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89e1fa13726cbe346bfa16eae97cee3d, type: 3}
-  m_Name: Sandwich_4x4_16pieces
+  m_Name: Sandwich_4x4_4pieces
   m_EditorClassIdentifier: 
   GameType: 1
   GameBoardSize: 4
@@ -18,7 +18,7 @@ MonoBehaviour:
   TileHeight: 0.2
   PieceRandomRotationEnabled: 1
   MergePiecesEnabled: 0
-  StartingNumberOfPieces: 16
+  StartingNumberOfPieces: 4
   MostImportantPieceIndex: 0
   PieceList:
   - {fileID: 5764962964242528906, guid: ca212ba2ffea07746aab6bf4ff657587, type: 3}
