@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be2148565b5d9a438b4c1f97cd4b665, type: 3}
+  m_Name: 2048_4x4_8pieces_max128
+  m_EditorClassIdentifier: 
+  GameType: 2
+  GameBoardSize: 4
+  TileSize: 1.25
+  TileHeight: 0
+  PieceRandomRotationEnabled: 0
+  MergePiecesEnabled: 1
+  StartingNumberOfPieces: 8
+  MostImportantPieceIndex: 6
+  PieceList:
+  - {fileID: 9126360663820842406, guid: 4046b1d76676736469a5a86ce5394280, type: 3}
+  - {fileID: 5701926187383288695, guid: a932e16dbbdcb514aacc41ac27afa885, type: 3}
+  - {fileID: 1696386238718276114, guid: 1c2904d2adf022d4592aea52f92990dd, type: 3}
+  - {fileID: 2220402918593546747, guid: 7135b4d632286ee41b881e674c19d7dd, type: 3}
+  - {fileID: 5664652243382330896, guid: 946f45f52bcf7104689aaaace84e534a, type: 3}
+  - {fileID: 5017908410640884494, guid: d083ed74016abad48bb3a65bb0de1f06, type: 3}
+  - {fileID: 5282814720299907215, guid: 1de33bdfcda3b964799f826dc644341a, type: 3}
+  - {fileID: 3506870341149605162, guid: 7cd83738df8b4d242a25eb36f52bea14, type: 3}
+  - {fileID: 5479761917941030037, guid: 1788de2e5431c5b49b150e44f2b68b16, type: 3}
+  - {fileID: 2274567555612029503, guid: 7c6b08cb200492943abea5ef126be6e0, type: 3}
+  - {fileID: 5259305532470430761, guid: f247a603f396965458348694ee58fafc, type: 3}
