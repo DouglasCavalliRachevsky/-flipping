@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private LevelManager level;
     private Piece currentSelectedPiece;
+    private int totalValidMovements = 0;
 
     private void Awake()
     {
@@ -18,7 +20,20 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             DeselectPiece();
+            
+            if (level.CheckUpVictory(totalValidMovements))
+            {
+                Debug.Log("WIN");
+            }
         }
+    }
+
+    [UsedImplicitly]
+    public void StartNewGame()
+    {
+        DeselectPiece();
+        level.InitializeNewLevel();
+        totalValidMovements = 0;
     }
 
     private void DeselectPiece()
@@ -59,9 +74,14 @@ public class GameManager : MonoBehaviour
         //Debug.Log("YES NEIGHBORS");
         bool joinedPieces = level.Rules.JoinPiecesIfPossible(currentSelectedPiece, selected);
 
-        if (level.Rules.MergePiecesEnabled && joinedPieces)
+        if (joinedPieces)
         {
-            level.GenerateNewPiece(new Vector3Int(selected.CurrentTile.x, selected.CurrentTile.y , selected.CurrentTile.z + 1));
+            totalValidMovements++;
+            
+            if (level.Rules.MergePiecesEnabled)
+            {
+                level.GenerateNewPiece(new Vector3Int(selected.CurrentTile.x, selected.CurrentTile.y , selected.CurrentTile.z + 1));
+            }
         }
         
         DeselectPiece();

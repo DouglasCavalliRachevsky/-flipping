@@ -12,15 +12,6 @@ public static class LevelGenerator
 
     private static List<Vector3Int> currentGameBoard = new List<Vector3Int>();
 
-    enum NeighborType
-    {
-        min,
-        right,
-        left,
-        top,
-        bottom,
-        max
-    }
 
     public static List<Vector3Int> GenerateANewLevel(LevelRules _levelRules, int _startingNumberOfPieces)
     {
@@ -55,7 +46,7 @@ public static class LevelGenerator
             
             currentGameBoard.Add(newOccupiedTile);
 
-            Debug.Log("Tile " + i + " - " + newOccupiedTile);
+            //Debug.Log("Tile " + i + " - " + newOccupiedTile);
 
             lastPrefabIndex = currentPrefabIndex;
         }

@@ -72,4 +72,30 @@ public class LevelManager : MonoBehaviour
 
         return totalDif == 1;
     }
+
+    public bool CheckUpVictory(int totalValidMovements)
+    {
+        //Debug.Log(totalValidMovements + "/" + MaxMovements() + " valid moves");
+        if (totalValidMovements != MaxMovements())
+        {
+            return false;
+        }
+        
+        if (Rules.GameType == GameType.Sandwich)
+        {
+            var piece = piecesGameObjects[0].GetComponent<Piece>();
+            if (piece.GetUpperPiece().CurrentTile.z != 0
+                || piece.GetLowerPiece().CurrentTile.z != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public int MaxMovements()
+    {
+        return startingGameBoard.Count - 1;
+    }
 }

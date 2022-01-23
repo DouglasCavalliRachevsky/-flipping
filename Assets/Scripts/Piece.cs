@@ -98,7 +98,7 @@ public class Piece : MonoBehaviour
             bottomPiece.UpdateCurrentTileRecursively();
         }
 
-        CurrentTile = GetLowerPiece().CurrentTile;
+        CurrentTile = new Vector3Int(GetLowerPiece().CurrentTile.x, GetLowerPiece().CurrentTile.y, CurrentTile.z);
     }
     
     public void UpdateAllStackCurrentTile()
