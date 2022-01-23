@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
                 new Vector3(tile.x * levelRules.TileSize, 0, tile.y * levelRules.TileSize),
                 randomRotation);
             pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + levelRules.PieceList[tile.z].name;
-            pieceGameObject.AddComponent<BoxCollider>();
+            pieceGameObject.AddComponent<MeshCollider>();
             Piece piece = pieceGameObject.AddComponent<Piece>();
             piece.StartingTile = tile;
             piecesGameObjects.Add(pieceGameObject);
