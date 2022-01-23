@@ -38,19 +38,35 @@ public class LevelManager : MonoBehaviour
 
         foreach (var tile in startingGameBoard)
         {
-            Quaternion randomRotation = Quaternion.Euler(0f,90f * (int)Random.Range(0, 4), 0f);
-            GameObject pieceGameObject = Instantiate(Rules.PieceList[tile.z],
-                new Vector3(tile.x * Rules.TileSize, 0, tile.y * Rules.TileSize),
-                randomRotation);
-            pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + Rules.PieceList[tile.z].name;
-            pieceGameObject.transform.parent = transform;
-            pieceGameObject.AddComponent<MeshCollider>();
-            Piece piece = pieceGameObject.AddComponent<Piece>();
-            piece.StartingTile = tile;
-            piecesGameObjects.Add(pieceGameObject);
+            
+
+            GenerateNewPiece(tile);
         }
     }
-    
+
+    public void GenerateNewPiece(Vector3Int tile)
+    {
+        Quaternion tileRotation = new Quaternion();
+        if (Rules.PieceRandomRotationEnabled)
+        {
+            tileRotation = Quaternion.Euler(0f, 90f * (int) Random.Range(0, 4), 0f);
+        }
+        else
+        {
+            tileRotation = Quaternion.Euler(0f, 270f, 0f);
+        }
+        
+        GameObject pieceGameObject = Instantiate(Rules.PieceList[tile.z],
+            new Vector3(tile.x * Rules.TileSize, 0, tile.y * Rules.TileSize),
+            tileRotation);
+        pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + Rules.PieceList[tile.z].name;
+        pieceGameObject.transform.parent = transform;
+        pieceGameObject.AddComponent<MeshCollider>();
+        Piece piece = pieceGameObject.AddComponent<Piece>();
+        piece.StartingTile = tile;
+        piecesGameObjects.Add(pieceGameObject);
+    }
+
     public bool AreNeighborTiles(Vector3Int tileA, Vector3Int tileB)
     {
         Vector3Int dif = tileA - tileB;

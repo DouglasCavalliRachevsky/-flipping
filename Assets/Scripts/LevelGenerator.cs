@@ -27,30 +27,29 @@ public static class LevelGenerator
         startingNumberOfPieces = _startingNumberOfPieces;
         levelRules = _levelRules;
         ResetLevel();
-        GenerateLevel();
+        GenerateLevel(levelRules.MostImportantPieceIndex);
         return currentGameBoard;
     }
 
-    private static void GenerateLevel()
+    private static void GenerateLevel(int startingPrefabIndex = 0)
     {
         int lastPrefabIndex = 0;
-        int prefabIndex = 0;
         for (int i = 0; i < startingNumberOfPieces; i++)
         {
             if (i > 1)
             {
-                while (prefabIndex == lastPrefabIndex)
+                while (startingPrefabIndex == lastPrefabIndex)
                 {
-                    prefabIndex = Random.Range(1, levelRules.PieceList.Count);
+                    startingPrefabIndex = Random.Range(1, levelRules.PieceList.Count);
                 }
             }
 
-            var newOccupiedTile = GetAvailableTile(prefabIndex);
+            var newOccupiedTile = GetAvailableTile(startingPrefabIndex);
             currentGameBoard.Add(newOccupiedTile);
 
             Debug.Log("Tile " + i + " - " + newOccupiedTile);
 
-            lastPrefabIndex = prefabIndex;
+            lastPrefabIndex = startingPrefabIndex;
         }
     }
 

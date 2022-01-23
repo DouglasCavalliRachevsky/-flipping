@@ -5,19 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SandwichRule", menuName = "Rules/SandwichRule", order = 1)]
 public class SandwichLevelRules : LevelRules
 {
-    public override void JoinPieces(Piece origin, Piece target)
+    public override bool JoinPiecesIfPossible(Piece origin, Piece target)
     {
+        base.JoinPiecesIfPossible(origin, target);
+        
         StackSelectedPieces(origin, target);
+        
+        return true;
     }
     
     private void StackSelectedPieces(Piece origin, Piece target)
     {
-        Transform originTransform = origin.transform;
-        originTransform.position = target.transform.position + new Vector3(0, TileHeight, 0);
-        var originRotation = originTransform.rotation;
-        originTransform.Rotate(new Vector3(originRotation.x + 180,
-            originRotation.y, originRotation.z), Space.Self);
-
         target.UpdateTopPieces(origin);
         origin.UpdateBottomPieces(target);
         

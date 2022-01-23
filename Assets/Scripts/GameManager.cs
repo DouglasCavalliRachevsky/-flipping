@@ -57,7 +57,13 @@ public class GameManager : MonoBehaviour
         }
 
         //Debug.Log("YES NEIGHBORS");
-        level.Rules.JoinPieces(currentSelectedPiece, selected);
+        bool joinedPieces = level.Rules.JoinPiecesIfPossible(currentSelectedPiece, selected);
+
+        if (level.Rules.MergePiecesEnabled && joinedPieces)
+        {
+            level.GenerateNewPiece(new Vector3Int(selected.CurrentTile.x, selected.CurrentTile.y , selected.CurrentTile.z + 1));
+        }
+        
         DeselectPiece();
     }
 }
