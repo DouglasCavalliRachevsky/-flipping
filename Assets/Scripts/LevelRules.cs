@@ -1,9 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameType
+{
+    None,
+    Sandwich,
+    g2048
+}
+
 public class LevelRules : ScriptableObject
 {
+    public GameType GameType;
+    
     [Header("Gameboard")]
     public int GameBoardSize = 4;
     public float TileSize = 1.2f;

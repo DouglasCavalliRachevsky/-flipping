@@ -38,8 +38,6 @@ public class LevelManager : MonoBehaviour
 
         foreach (var tile in startingGameBoard)
         {
-            
-
             GenerateNewPiece(tile);
         }
     }

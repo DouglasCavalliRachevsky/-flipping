@@ -31,76 +31,89 @@ public static class LevelGenerator
         return currentGameBoard;
     }
 
-    private static void GenerateLevel(int startingPrefabIndex = 0)
+    private static void GenerateLevel(int currentPrefabIndex = 0)
     {
         int lastPrefabIndex = 0;
         for (int i = 0; i < startingNumberOfPieces; i++)
         {
-            if (i > 1)
+            if (levelRules.GameType == GameType.Sandwich && i > 1)
             {
-                while (startingPrefabIndex == lastPrefabIndex)
+                while (currentPrefabIndex == lastPrefabIndex)
                 {
-                    startingPrefabIndex = Random.Range(1, levelRules.PieceList.Count);
+                    currentPrefabIndex = Random.Range(1, levelRules.PieceList.Count);
                 }
             }
 
-            var newOccupiedTile = GetAvailableTile(startingPrefabIndex);
+            var newOccupiedTile = GetAvailableTile(currentPrefabIndex);
+
+            if (newOccupiedTile == Vector3Int.one * -1)
+            {
+                ResetLevel();
+                Debug.LogError("Error on creating level!!! Please, confirm the level data.");
+                return;
+            }
+            
             currentGameBoard.Add(newOccupiedTile);
 
             Debug.Log("Tile " + i + " - " + newOccupiedTile);
 
-            lastPrefabIndex = startingPrefabIndex;
+            lastPrefabIndex = currentPrefabIndex;
         }
     }
 
-    private static Vector3Int GetAvailableTile(int prefabIndex)
+    private static Vector3Int GetAvailableTile(int currentPrefabIndex)
     {
         if (currentGameBoard.Count == 0)
         {
             return (new Vector3Int(Random.Range(0, levelRules.GameBoardSize),
-                Random.Range(0, levelRules.GameBoardSize), prefabIndex));
+                Random.Range(0, levelRules.GameBoardSize), currentPrefabIndex));
         }
 
-        while (true)
+        int attempts = 1000;
+        while (attempts > 0)
         {
+            attempts--;
             int randomOccupiedTileIndex = Random.Range(0, currentGameBoard.Count);
-            Vector3Int occupiedTile = currentGameBoard[randomOccupiedTileIndex];
-
-            NeighborType neighborType =
-                (NeighborType) Random.Range((int) NeighborType.min + 1, (int) NeighborType.max);
-
-            switch (neighborType)
+            
+            if (levelRules.GameType == GameType.g2048 && currentGameBoard[randomOccupiedTileIndex].z == 0)
             {
-                case NeighborType.right:
-                    if (IsTileAvailable(occupiedTile.x + 1, occupiedTile.y))
-                    {
-                        return (new Vector3Int(occupiedTile.x + 1, occupiedTile.y, prefabIndex));
-                    }
-
+                continue;
+            }
+            
+            Vector2Int occupiedTilePosition = new Vector2Int(currentGameBoard[randomOccupiedTileIndex].x,currentGameBoard[randomOccupiedTileIndex].y);
+            
+            Vector2Int neighborDifPosition = Vector2Int.zero;
+            switch (Random.Range(0, 4))
+            {
+                case 0:
+                    neighborDifPosition = Vector2Int.right;
                     break;
-                case NeighborType.left:
-                    if (IsTileAvailable(occupiedTile.x - 1, occupiedTile.y))
-                    {
-                        return (new Vector3Int(occupiedTile.x - 1, occupiedTile.y, prefabIndex));
-                    }
-
+                case 1:
+                    neighborDifPosition = Vector2Int.left;
                     break;
-                case NeighborType.top:
-                    if (IsTileAvailable(occupiedTile.x, occupiedTile.y + 1))
-                    {
-                        return (new Vector3Int(occupiedTile.x, occupiedTile.y + 1, prefabIndex));
-                    }
-
+                case 2:
+                    neighborDifPosition = Vector2Int.up;
                     break;
-                case NeighborType.bottom:
-                    if (IsTileAvailable(occupiedTile.x, occupiedTile.y - 1))
-                    {
-                        return (new Vector3Int(occupiedTile.x, occupiedTile.y - 1, prefabIndex));
-                    }
-
+                case 3:
+                    neighborDifPosition = Vector2Int.down;
                     break;
             }
+            
+            if (IsTileAvailable(occupiedTilePosition.x + neighborDifPosition.x, occupiedTilePosition.y + neighborDifPosition.y))
+            {
+                int z = currentPrefabIndex;
+                
+                if (levelRules.GameType == GameType.g2048)
+                {
+                    currentGameBoard[randomOccupiedTileIndex] += new Vector3Int(0,0,-1);
+                    z = currentGameBoard[randomOccupiedTileIndex].z;
+                }
+                
+                return new Vector3Int(occupiedTilePosition.x + neighborDifPosition.x, occupiedTilePosition.y + neighborDifPosition.y, z);
+            }
         }
+
+        return Vector3Int.one * -1;
     }
 
     private static bool IsTileAvailable(int x, int y)
