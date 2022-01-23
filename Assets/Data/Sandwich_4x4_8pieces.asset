@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Sandwich_4x4_8pieces
   m_EditorClassIdentifier: 
   GameBoardSize: 4
-  StartingNumberOfPieces: 8
   TileSize: 1.25
   TileHeight: 0.2
+  PieceRandomRotationEnabled: 0
+  MergePiecesEnabled: 0
+  StartingNumberOfPieces: 8
+  MostImportantPieceIndex: 0
   PieceList:
   - {fileID: 5764962964242528906, guid: ca212ba2ffea07746aab6bf4ff657587, type: 3}
   - {fileID: 2349296836677394995, guid: 6528793be95d08344afab74352046e4b, type: 3}
