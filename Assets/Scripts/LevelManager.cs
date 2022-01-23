@@ -53,9 +53,9 @@ public class LevelManager : MonoBehaviour
             tileRotation);
         pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + Rules.PieceList[tile.z].name;
         pieceGameObject.transform.parent = transform;
-        pieceGameObject.AddComponent<MeshCollider>();
-        Piece piece = pieceGameObject.AddComponent<Piece>();
-        piece.StartingTile = tile;
+        // pieceGameObject.AddComponent<MeshCollider>();
+        // pieceGameObject.AddComponent<Rigidbody>().isKinematic = true;
+        pieceGameObject.AddComponent<Piece>().StartingTile = tile;
         piecesGameObjects.Add(pieceGameObject);
     }
 

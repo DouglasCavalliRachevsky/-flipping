@@ -19,7 +19,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Mouse0) && ui.CurrentState == State.Gameplay)
+        if (ui.CurrentState == State.Gameplay
+#if UNITY_EDITOR
+            && Input.GetKeyUp(KeyCode.Mouse0)
+#else
+            && Input.touches.Length > 0 && Input.touches[0].phase == TouchPhase.Ended
+#endif
+        )
         {
             DeselectPiece();
 

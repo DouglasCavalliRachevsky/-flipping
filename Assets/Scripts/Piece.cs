@@ -21,13 +21,13 @@ public class Piece : MonoBehaviour
         CurrentTile = StartingTile;
     }
 
-    private void OnMouseDown()
+    public void SelectUpperPiece()
     {
         gameManager.SelectPiece(GetUpperPiece());
     }
     
     
-    private void OnMouseEnter()
+    public void SelectOtherUpperPiece()
     {
         gameManager.SelectOtherPiece(GetUpperPiece());
     }
