@@ -10,8 +10,8 @@ public class LevelRules : ScriptableObject
     public float TileHeight = 0.2f;
     public List<GameObject> PieceList;
     
-    // public virtual void JoinPieces()
-    // {
-    //     
-    // }
+    public virtual void JoinPieces(Piece origin, Piece target)
+    {
+        
+    }
 }

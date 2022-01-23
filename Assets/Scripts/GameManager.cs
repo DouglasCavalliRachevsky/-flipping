@@ -50,37 +50,14 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (AreNeighborTiles(selected.CurrentTile, currentSelectedPiece.CurrentTile) == false)
+        if (level.AreNeighborTiles(selected.CurrentTile, currentSelectedPiece.CurrentTile) == false)
         {
-            Debug.Log("NOT NEIGHBORS");
+            //Debug.Log("NOT NEIGHBORS");
             return;
         }
 
-        Debug.Log("YES NEIGHBORS");
-        StackSelectedPieces(currentSelectedPiece, selected);
+        //Debug.Log("YES NEIGHBORS");
+        level.Rules.JoinPieces(currentSelectedPiece, selected);
         DeselectPiece();
-    }
-
-    private void StackSelectedPieces(Piece origin, Piece target)
-    {
-        Transform originTransform = origin.transform;
-        originTransform.position = target.transform.position + new Vector3(0, level.Rules.TileHeight, 0);
-        var originRotation = originTransform.rotation;
-        originTransform.Rotate(new Vector3(originRotation.x + 180,
-            originRotation.y, originRotation.z), Space.Self);
-
-        target.UpdateTopPieces(origin);
-        origin.UpdateBottomPieces(target);
-        
-        target.UpdateParentTransforms();
-        origin.UpdateAllStackCurrentTile();
-    }
-
-    private bool AreNeighborTiles(Vector3Int tileA, Vector3Int tileB)
-    {
-        Vector3Int dif = tileA - tileB;
-        int totalDif = Mathf.Abs(dif.x) + Mathf.Abs(dif.y);
-
-        return totalDif == 1;
     }
 }

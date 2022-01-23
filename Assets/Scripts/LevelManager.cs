@@ -50,4 +50,12 @@ public class LevelManager : MonoBehaviour
             piecesGameObjects.Add(pieceGameObject);
         }
     }
+    
+    public bool AreNeighborTiles(Vector3Int tileA, Vector3Int tileB)
+    {
+        Vector3Int dif = tileA - tileB;
+        int totalDif = Mathf.Abs(dif.x) + Mathf.Abs(dif.y);
+
+        return totalDif == 1;
+    }
 }
