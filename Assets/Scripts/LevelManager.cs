@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private LevelRules levelRules;
+    public LevelRules Rules;
     private List<GameObject> piecesGameObjects = new List<GameObject>();
     private List<Vector3Int> startingGameBoard = new List<Vector3Int>();
 
@@ -34,15 +34,16 @@ public class LevelManager : MonoBehaviour
         }
 
         piecesGameObjects = new List<GameObject>();
-        startingGameBoard = LevelGenerator.GenerateANewLevel(levelRules, levelRules.StartingNumberOfPieces);
+        startingGameBoard = LevelGenerator.GenerateANewLevel(Rules, Rules.StartingNumberOfPieces);
 
         foreach (var tile in startingGameBoard)
         {
             Quaternion randomRotation = Quaternion.Euler(0f,90f * (int)Random.Range(0, 4), 0f);
-            GameObject pieceGameObject = Instantiate(levelRules.PieceList[tile.z],
-                new Vector3(tile.x * levelRules.TileSize, 0, tile.y * levelRules.TileSize),
+            GameObject pieceGameObject = Instantiate(Rules.PieceList[tile.z],
+                new Vector3(tile.x * Rules.TileSize, 0, tile.y * Rules.TileSize),
                 randomRotation);
-            pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + levelRules.PieceList[tile.z].name;
+            pieceGameObject.name = "[" + tile.x + "," + tile.y + "]_" + Rules.PieceList[tile.z].name;
+            pieceGameObject.transform.parent = transform;
             pieceGameObject.AddComponent<MeshCollider>();
             Piece piece = pieceGameObject.AddComponent<Piece>();
             piece.StartingTile = tile;

@@ -1,10 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private LevelManager level;
     private Piece currentSelectedPiece;
+
+    private void Awake()
+    {
+        level = GetComponent<LevelManager>();
+    }
 
     private void Update()
     {
@@ -50,23 +57,23 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("YES NEIGHBORS");
-        StackSelectedPieces(selected);
+        StackSelectedPieces(currentSelectedPiece, selected);
         DeselectPiece();
     }
 
-    private void StackSelectedPieces(Piece target)
+    private void StackSelectedPieces(Piece origin, Piece target)
     {
-        Transform currentSelectedTransform = currentSelectedPiece.transform;
-        currentSelectedTransform.position = target.transform.position + new Vector3(0, 0.2f, 0);
-        var currentSelectedPieceRot = currentSelectedTransform.rotation;
-        currentSelectedTransform.Rotate(new Vector3(currentSelectedPieceRot.x + 180,
-            currentSelectedPieceRot.y, currentSelectedPieceRot.z), Space.Self);
+        Transform originTransform = origin.transform;
+        originTransform.position = target.transform.position + new Vector3(0, level.Rules.TileHeight, 0);
+        var originRotation = originTransform.rotation;
+        originTransform.Rotate(new Vector3(originRotation.x + 180,
+            originRotation.y, originRotation.z), Space.Self);
 
-        target.UpdateTopPieces(currentSelectedPiece);
-        currentSelectedPiece.UpdateBottomPieces(target);
+        target.UpdateTopPieces(origin);
+        origin.UpdateBottomPieces(target);
         
         target.UpdateParentTransforms();
-        currentSelectedPiece.UpdateAllStackCurrentTile();
+        origin.UpdateAllStackCurrentTile();
     }
 
     private bool AreNeighborTiles(Vector3Int tileA, Vector3Int tileB)

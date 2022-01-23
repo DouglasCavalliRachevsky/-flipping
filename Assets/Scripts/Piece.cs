@@ -12,14 +12,13 @@ public class Piece : MonoBehaviour
     private Piece topPiece;
     [SerializeField]
     private Piece bottomPiece;
-    [SerializeField] private Transform noParent;
+    private Transform defaultParent;
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        noParent = gameManager.transform;
+        defaultParent = transform.parent;
+        gameManager = defaultParent.GetComponent<GameManager>();
         CurrentTile = StartingTile;
-        transform.parent = noParent;
     }
 
     private void OnMouseDown()
@@ -83,7 +82,7 @@ public class Piece : MonoBehaviour
 
     public void UpdateParentTransforms()
     {
-        transform.parent = noParent;
+        transform.parent = defaultParent;
         
         if (topPiece != null)
         {
